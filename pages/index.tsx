@@ -1,10 +1,16 @@
+import type { NextPage } from "next";
 import client from "client";
 import { gql } from "@apollo/client";
 
-export default function Home(props) {
+type Props = {
+  data: any;
+  myexampleprop: string;
+};
+
+const Home: NextPage<Props> = (props) => {
   console.log("PROPS: ", props);
   return <div>Next JS &amp; WordPress course.</div>;
-}
+};
 
 export const getStaticProps = async () => {
   const { data } = await client.query({
@@ -25,3 +31,5 @@ export const getStaticProps = async () => {
     },
   };
 };
+
+export default Home;
