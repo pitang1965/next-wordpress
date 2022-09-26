@@ -1,15 +1,20 @@
 import type { NextPage } from "next";
 import client from "client";
 import { gql } from "@apollo/client";
+import { BlockRenderer } from "components/BlockRenderer";
+import { cleanAndTransformBlocks } from "utils/cleanAndTransformBlocks";
 
 type Props = {
-  data: any;
-  myexampleprop: string;
+  blocks: any;
 };
 
 const Home: NextPage<Props> = (props) => {
   console.log("PROPS: ", props);
-  return <div>Next JS &amp; WordPress course.</div>;
+  return (
+    <div>
+      <BlockRenderer blocks={props.blocks} />
+    </div>
+  );
 };
 
 export const getStaticProps = async () => {
@@ -26,10 +31,12 @@ export const getStaticProps = async () => {
       }
     `,
   });
+
+  const blocks = cleanAndTransformBlocks(data.nodeByUri.blocksJSON);
+
   return {
     props: {
-      blocks: JSON.parse(data.nodeByUri.blocksJSON),
-      myexampleprop: "test",
+      blocks,
     },
   };
 };
