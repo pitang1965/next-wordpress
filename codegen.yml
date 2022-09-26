@@ -1,0 +1,6 @@
+overwrite: true
+schema: "http://hot-dang-homes-course.local/graphql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"

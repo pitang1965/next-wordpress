@@ -4,7 +4,7 @@ type Props = {
   blocks: any;
 };
 
-export const BlockRenderer:FC<Props> = ({ blocks }) => {
+export const BlockRenderer: FC<Props> = ({ blocks }) => {
   return blocks.map((block:any) => {
     switch (block.name) {
       case "core/cover":
