@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-export const cleanAndTransformBlocks = (blocksJSON:any) => {
+export const cleanAndTransformBlocks = (blocksJSON:string) => {
   const blocks = JSON.parse(blocksJSON);
   const deleteKeys = [
     "attributesType",
@@ -13,8 +13,8 @@ export const cleanAndTransformBlocks = (blocksJSON:any) => {
     "order",
   ];
 
-  const removeUnusedDataAndAssignId = (b: any) => {
-    b.forEach((block: any) => {
+  const removeUnusedDataAndAssignId = (b:any) => {
+    b.forEach((block:any) => {
       block.id = uuid();
       deleteKeys.forEach((deleteKey) => {
         delete block[deleteKey];
