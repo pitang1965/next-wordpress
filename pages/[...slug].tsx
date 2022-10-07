@@ -2,13 +2,17 @@ import React from 'react';
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { gql } from '@apollo/client';
 import client from 'client';
+import { cleanAndTransformBlocks } from 'utils/cleanAndTransformBlocks';
+import { BlockRenderer } from 'components/BlockRenderer';
 
 type Props = {
-  data: any;
+  title: any;
+  blocks: any;
 };
 
-const Page: NextPage<Props> = ({ data }) => {
-  return <div>page</div>;
+const Page: NextPage<Props> = (props) => {
+  console.log('PAGE PROPS: ', props);
+  return <div><BlockRenderer blocks={props.blocks} /></div>;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -34,9 +38,37 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async (context) => {
+  console.log('CONTEXT: ', context);
+  const uri =
+    typeof context?.params?.slug === 'object'
+      ? `/${context?.params?.slug?.join('/')}/`
+      : `/${context?.params?.slug}/`;
+  console.log('URI: ', uri);
+  const { data } = await client.query({
+    query: gql`
+      query PageQuery($uri: String!) {
+        nodeByUri(uri: $uri) {
+          ... on Page {
+            id
+            title
+            blocksJSON
+          }
+        }
+      }
+    `,
+    variables: {
+      uri,
+    },
+  });
+
+  const blocks = cleanAndTransformBlocks(data.nodeByUri.blocksJSON);
+
   return {
-    props: {},
+    props: {
+      title: data.nodeByUri.title,
+      blocks,
+    },
   };
 };
 
