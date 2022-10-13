@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
-export type TextAlign = 'left' | 'center' | 'right';
-export type FontLevel = 1 | 2 | 3 | 4 | 5 | 6;
 import { getFontSize, getTextAlign } from 'utils/fonts';
+import { FontLevel, TextAlign } from 'utils/fonts';
 
 type Props = {
   textAlign: TextAlign;

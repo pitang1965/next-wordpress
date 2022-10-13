@@ -1,4 +1,5 @@
-import { TextAlign, FontLevel } from 'components/Heading';
+export type TextAlign = 'left' | 'center' | 'right';
+export type FontLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export const getTextAlign = (textAlign: TextAlign = 'left') => {
   const textAlignMap = {
